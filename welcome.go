@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"net/http"
 )
 
@@ -13,5 +14,5 @@ func init() {
 func welcomeHandler(w http.ResponseWriter, r *http.Request) {
 	team := r.URL.Query().Get("team")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "<h2>Welcome to team %s</h2>", team)
+	fmt.Fprintf(w, "<h2>Welcome to team %s</h2>", html.EscapeString(team))
 }
