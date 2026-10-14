@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"net/http"
 	"strings"
 )
@@ -14,5 +15,5 @@ func init() {
 func shoutHandler(w http.ResponseWriter, r *http.Request) {
 	msg := r.URL.Query().Get("msg")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "<h1>%s!</h1>", strings.ToUpper(msg))
+	fmt.Fprintf(w, "<h1>%s!</h1>", html.EscapeString(strings.ToUpper(msg)))
 }
