@@ -1,15 +1,15 @@
-# patchy agent image for patchy-target: patchy's agent-base plus the Go
+# maul agent image for maul-target: maul's agent-base plus the Go
 # toolchain go.mod asks for and the module cache, so the agent can build and
 # test with no network. Built and pushed by .github/workflows/agent-image.yml;
 # to build it by hand, use the repository root as the context:
 #
-#   docker build --platform linux/amd64 -f .patchy/Dockerfile -t patchy-target-agent .
+#   docker build --platform linux/amd64 -f .maul/Dockerfile -t maul-target-agent .
 #
-# Adapted from examples/agent-images/go in devthenet-labs/patchy.
+# Adapted from examples/agent-images/go in devthenet-labs/maul.
 
-# The base, pinned to a patchy release and to that release's index digest, so
+# The base, pinned to a maul release and to that release's index digest, so
 # a moved tag can never change what this image is built on.
-ARG AGENT_BASE=ghcr.io/devthenet-labs/patchy/agent-base:v0.11.7@sha256:e78486306386db6129b41c1f4065429d72d777780a61c866bbf138eeeab32026
+ARG AGENT_BASE=ghcr.io/devthenet-labs/maul/agent-base:v0.13.0@sha256:7c66e73d474cade78162ff67dd386d620fa276316285094bccca53d563d1dbb7
 FROM ${AGENT_BASE}
 
 # apk needs root; the image drops back to 65532 at the end (the pod runs as
@@ -44,11 +44,11 @@ ENV GOPROXY=off \
 
 # Describe this image, not the base (labels are inherited). CI adds revision,
 # version and created.
-LABEL org.opencontainers.image.source="https://github.com/devthenet-labs/patchy-target" \
-      org.opencontainers.image.url="https://github.com/devthenet-labs/patchy-target/tree/main/.patchy" \
-      org.opencontainers.image.documentation="https://github.com/devthenet-labs/patchy-target/blob/main/.patchy/README.md" \
-      org.opencontainers.image.title="patchy-target agent image" \
-      org.opencontainers.image.description="patchy agent image for patchy-target: Go 1.24 with the module cache baked in"
+LABEL org.opencontainers.image.source="https://github.com/devthenet-labs/maul-target" \
+      org.opencontainers.image.url="https://github.com/devthenet-labs/maul-target/tree/main/.maul" \
+      org.opencontainers.image.documentation="https://github.com/devthenet-labs/maul-target/blob/main/.maul/README.md" \
+      org.opencontainers.image.title="maul-target agent image" \
+      org.opencontainers.image.description="maul agent image for maul-target: Go 1.24 with the module cache baked in"
 
 WORKDIR /workspace
 USER 65532:65532

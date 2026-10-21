@@ -1,20 +1,20 @@
-# Builds the patchy agent image (.patchy/Dockerfile) and pushes it to ECR,
+# Builds the maul agent image (.maul/Dockerfile) and pushes it to ECR,
 # keylessly: GitHub's OIDC token is exchanged for this repository's own push
 # role, which trusts only this repository on refs/heads/main and can push only
 # to this repository's ECR repository. No stored secrets.
 #
 # Tags are immutable in ECR, so each build pushes only :sha-<short sha> and
-# never a moving tag. Point .patchy/agent.yaml at the new tag to adopt a build.
+# never a moving tag. Point .maul/agent.yaml at the new tag to adopt a build.
 name: agent-image
 
 on:
   push:
     branches: [main]
     paths:
-      - .patchy/**
+      - .maul/**
       # The declaration and its docs are not image inputs.
-      - "!.patchy/agent.yaml"
-      - "!.patchy/README.md"
+      - "!.maul/agent.yaml"
+      - "!.maul/README.md"
       - go.mod
       - go.sum
       - .github/workflows/agent-image.yml
@@ -29,11 +29,11 @@ concurrency:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: patchy/app-envs/patchy-target
-  PUSH_ROLE: arn:aws:iam::377946145366:role/devthenet-labs-app-env-push-patchy-target
+  ECR_REPOSITORY: maul/app-envs/maul-target
+  PUSH_ROLE: arn:aws:iam::377946145366:role/devthenet-labs-app-env-push-maul-target
   # The AWS KMS key the image is signed with (terraform-devthenet
-  # patchy-agent-signing.tf). patchy admits only images signed by it.
-  SIGNING_KEY: awskms:///alias/patchy-agent-image-signing
+  # maul-agent-signing.tf). maul admits only images signed by it.
+  SIGNING_KEY: awskms:///alias/maul-agent-image-signing
 
 jobs:
   build-push:
@@ -68,7 +68,7 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
-          file: .patchy/Dockerfile
+          file: .maul/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.meta.outputs.tag }}
