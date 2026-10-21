@@ -9,7 +9,7 @@
 
 # The base, pinned to a maul release and to that release's index digest, so
 # a moved tag can never change what this image is built on.
-ARG AGENT_BASE=ghcr.io/devthenet-labs/maul/agent-base:v0.13.0
+ARG AGENT_BASE=ghcr.io/devthenet-labs/maul/agent-base:v0.13.0@sha256:7c66e73d474cade78162ff67dd386d620fa276316285094bccca53d563d1dbb7
 FROM ${AGENT_BASE}
 
 # apk needs root; the image drops back to 65532 at the end (the pod runs as
