@@ -1,5 +1,5 @@
 // Package main is a deliberately vulnerable sample service used to exercise
-// the patchy security pipeline. Do not deploy it.
+// the maul security pipeline. Do not deploy it.
 package main
 
 import (
